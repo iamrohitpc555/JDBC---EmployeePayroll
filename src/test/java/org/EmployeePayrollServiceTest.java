@@ -1,5 +1,6 @@
 package org;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import exception.PayrollSystemException;
@@ -34,20 +35,13 @@ public class EmployeePayrollServiceTest {
     @Test
     public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-        List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-        Assert.assertEquals(4,employeePayrollData.size());
+        List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+        Assert.assertEquals(5, employeePayrollData.size());
     }
 
-    //@Test /*UC3*/
-	/*public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() throws PayrollSystemException {
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-		employeePayrollService.updateEmployeeSalary("Amit",20000.0);
-		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Amit");
-		Assert.assertTrue(result);} */
 
     @Test
-    public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldSyncWithDB() /*UC4*/
+    public void givenNewSalaryForEmployee_WhenUpdatedUsingPreparedStatement_ShouldSyncWithDB()
             throws PayrollSystemException {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
@@ -65,7 +59,7 @@ public class EmployeePayrollServiceTest {
         LocalDate endDate = LocalDate.now();
         List<EmployeePayrollData> employeePayrollData = employeePayrollService
                 .readEmployeePayrollForDateRange(IOService.DB_IO, startDate, endDate);
-        Assert.assertEquals(4, employeePayrollData.size());
+        Assert.assertEquals(5, employeePayrollData.size());
     }
 
     /*UC6*/
@@ -83,13 +77,16 @@ public class EmployeePayrollServiceTest {
     /*UC7*/
 
     @Test
-    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws PayrollSystemException, SQLException {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-        employeePayrollService.addEmployeeToPayroll("Bill",50000.0,LocalDate.now(),'M');
-        boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Bill");
+        employeePayrollService.addEmployeeToPayroll("Mandy",50000.0,LocalDate.now(),'M');
+        boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Mandy");
         Assert.assertTrue(result);
 
-        /*UC8*/
+        /*UC-8*/
+        /*UC-8  Refactor*/
+
+
     }
 }
