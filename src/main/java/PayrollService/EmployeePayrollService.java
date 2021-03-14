@@ -5,6 +5,7 @@ import java.util.*;
 import databaseConnection.*;
 import exception.PayrollSystemException;
 
+
 public class EmployeePayrollService {
     public enum IOService {
         CONSOLE_IO, FILE_IO, DB_IO, REST_IO
@@ -13,6 +14,7 @@ public class EmployeePayrollService {
     private List<EmployeePayrollData> employeePayrollList;
     private Map<String, Double> genderToAverageSalaryMap;
     private EmployeePayrollDBService employeePayrollDBService;
+    private EmployeePayrollDBServiceNew employeePayrollDBServiceNew;
 
     public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
         this();
@@ -21,6 +23,7 @@ public class EmployeePayrollService {
 
     public EmployeePayrollService() {
         employeePayrollDBService = EmployeePayrollDBService.getInstance();
+        employeePayrollDBServiceNew=EmployeePayrollDBServiceNew.getInstance();
     }
 
     public static void main(String[] args) {
@@ -121,7 +124,20 @@ public class EmployeePayrollService {
         return genderToAverageSalaryMap;
     }
 
-    public void addEmployeeToPayroll(String name, double salary, LocalDate joiningDate, char gender) {
-        employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name,salary,joiningDate,gender));
+    public void addEmployeeToPayroll(String name, double salary, LocalDate joiningDate, char gender)
+            throws PayrollSystemException {
+        employeePayrollList.add(employeePayrollDBServiceNew.addEmployeeToPayroll(name, salary, joiningDate, gender));
+    }
+    public int removeEmployeeFromPayroll(String name, IOService ioService) {
+        int employeeCount=0;
+        if (ioService.equals(IOService.DB_IO))
+            employeeCount=employeePayrollDBServiceNew.removeEmployee(name);
+        return employeeCount;
+    }
+
+    public List<EmployeePayrollData> readActiveEmployeePayrollData(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            this.employeePayrollList = employeePayrollDBService.readActiveEmployeeData();
+        return this.employeePayrollList;
     }
 }

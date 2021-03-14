@@ -2,8 +2,6 @@ package Database;
 
 import java.sql.*;
 import java.time.LocalDate;
-
-import PayrollService.EmployeePayrollData;
 import exception.PayrollSystemException;
 
 public class EmployeePayrollDBServiceNew {
@@ -152,4 +150,18 @@ public class EmployeePayrollDBServiceNew {
                 }
         }
         return employeePayrollData;
-    }//
+    }
+    public int removeEmployee(String name) {
+        try (Connection connection = EmployeePayrollDBService.getConnection();) {
+            String sql = "update employeepayroll set is_active=? where employeename=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setBoolean(1, false);
+            preparedStatement.setString(2, name);
+            int status = preparedStatement.executeUpdate();
+            return status;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}
