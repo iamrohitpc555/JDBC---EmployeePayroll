@@ -1,15 +1,15 @@
 package Database;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
+import java.sql.Driver;
 
 public class ConnectingToDB {
     public static void main(String[] args) {
-        String jdbcURL = "jdbc:mysql://localhost:3306/Payroll_Service1";
+        String jdbcURL = "jdbc:mysql://localhost:3306/payrollservice";
         String userName = "root";
-        String password = "Tihor!SRK555";
+        String password = "training_capg";
         Connection connection;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

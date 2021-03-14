@@ -1,4 +1,4 @@
-package Database;
+package PayrollService;
 
 public class EmployeePayrollData {
     private int id;
