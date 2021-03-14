@@ -1,10 +1,11 @@
 package PayrollService;
 
+import java.time.LocalDate;
+import java.util.*;
+
 import Database.EmployeePayrollDBService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import exception.PayrollSystemException;
 
 public class EmployeePayrollService {
     public enum IOService {
@@ -94,5 +95,11 @@ public class EmployeePayrollService {
     public boolean checkEmployeePayrollInSyncWithDB(String name) {
         List<EmployeePayrollData> employeePayrollDataList=employeePayrollDBService.getEmployeePayrollData(name);
         return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
+    }
+    public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService, LocalDate startDate,
+                                                                     LocalDate endDate) {
+        if(ioService.equals(IOService.DB_IO))
+            this.employeePayrollList = employeePayrollDBService.getEmployeeForDateRange(startDate,endDate);
+        return this.employeePayrollList;
     }
 }
