@@ -89,5 +89,7 @@ public class EmployeePayrollServiceTest {
         employeePayrollService.addEmployeeToPayroll("Bill",50000.0,LocalDate.now(),'M');
         boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Bill");
         Assert.assertTrue(result);
+
+        /*UC8*/
     }
 }
